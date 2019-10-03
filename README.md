@@ -1,1 +1,1 @@
-## This is a very basic blog built with python's flask framework. Some of the features include registering to create a profile, login-in, upload profile picture and upload what's on your mind in a text box, content can also be deleted. Password reset is also an included feature.
+### This is a very basic blog built with python's flask framework. Some of the features include registering to create a profile, login-in, upload profile picture and upload what's on your mind in a text box, content can also be deleted. Password reset is also an included feature.
