@@ -12,7 +12,8 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-mail = Mail()
+mail = Mail() 
+
 
 
 def create_app(config_class=Config):
@@ -34,3 +35,4 @@ def create_app(config_class=Config):
     app.register_blueprint(errors) 
 
     return app  
+ 
