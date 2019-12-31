@@ -13,7 +13,7 @@ def save_picture(form_picture):
     picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_fn)
 
     output_size = (125, 125)
-    i = Image.open(form_picture)
+    i = Image.open(form_picture,'r')
     i.thumbnail(output_size)
     i.save(picture_path)
 
@@ -32,10 +32,6 @@ If you did not make this request then simply ignore this email and no changes wi
     mail.send(msg)
 
 
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
+
 
 

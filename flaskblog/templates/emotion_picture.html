@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Post a picture to detect mood</legend>
+            <h1>Upload your image</h1>
+            <div class="content-section">
+                <div class="media">
+                <img class="rounded-circle account-img" src="{{ pic1 }}">
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.picture1(class="form-control-file") }}
+                {% if form.picture1.errors %}
+                    {% for error in form.picture1.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+<div class="content-section">
+    <h1>The emotion is {{ ret }}</h1>
+</div>
+{% endblock content %}
