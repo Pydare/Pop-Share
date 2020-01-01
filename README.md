@@ -13,3 +13,4 @@ Download the Keras pretrained model here https://drive.google.com/file/d/0B6yZu8
 - Change the environment variables using bash
 - Create a local Sqlite RDBMS. More guide here: https://flask-sqlalchemy.palletsprojects.com/en/2.x/contexts/
 - Create your server using python run.py and open the link in your browser: localhost:5000
+- Enjoy!
