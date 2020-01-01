@@ -7,7 +7,7 @@ This is a very basic blog built with python's flask framework. Some of the featu
 - OpenCV, Tensorflow, Keras, Pillow
 - To install the required packages, run pip install -r requirements.txt
 ## Pretrained Model
-For keras model you can download here https://drive.google.com/file/d/0B6yZu81NrMhSV2ozYWZrenJXd1E/view?usp=sharing and put in keras_model file
+Download the Keras pretrained model here https://drive.google.com/file/d/0B6yZu81NrMhSV2ozYWZrenJXd1E/view?usp=sharing and put in the Pop-Share directory
 ## Usage
 - First, clone the repository with git clone https://github.com/Pydare/Pop-Share.git and enter the cloned folder: cd Pop-Share.
 - Change the environment variables using bash
