@@ -2,6 +2,7 @@ import face_recognition as fr
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
+import cv2
 import re
 
 def dict_factory(cursor, row):
@@ -25,14 +26,20 @@ def compare_faces(file1, file2):
 
 def detect_emotion(img_file):
     target = ['angry','disgust','fear','happy','sad','surprise','neutral']
+    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     model = load_model('model_5-49-0.62.hdf5')
-    img = image.load_img(img_file, target_size=(48,48))
-    img = image.img_to_array(img)
-    img = img.reshape((-1,1,48,48))
-    p = np.argmax(model.predict(img))
-    if p > 6:
-        p = 6
-    return target[p]
+    img = cv2.imread(img_file)
+    img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    face_rects = face_cascade.detectMultiScale(img)
+    for (x,y,w,h) in face_rects:
+        face_crop = img[y:y+h, x:x+w]
+        face_crop = cv2.resize(face_crop, (48,48))
+        face_crop = cv2.cvtColor(face_crop, cv2.COLOR_BGR2GRAY)
+        face_crop = face_crop.astype('float32')/255
+        face_crop = np.asarray(face_crop)
+        face_crop = face_crop.reshape(1, 1, face_crop.shape[0], face_crop.shape[1])
+    result = target[np.argmax(model.predict(face_crop))]
+    return result
 
 
 def print_request(request):

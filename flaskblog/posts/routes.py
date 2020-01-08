@@ -139,11 +139,10 @@ def face_match():
     if form.validate_on_submit():
         if form.picture1.data:
             picture_file1 = save_picture(form.picture1.data)
-            file1 = request.files.get('file1')
+            result = detect_emotion(picture_file1)
             current_user.pic1 = picture_file1
         db.session.commit()
         flash('Your picture has been posted!', 'success')
-        result = detect_emotion(file1)
         return redirect(url_for('posts.face_match'))
         
     if request.method == 'POST':
