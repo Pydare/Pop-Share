@@ -4,10 +4,12 @@ from flask import render_template, url_for, flash,redirect, request, abort, Blue
 from flask_login import current_user, login_required
 from flaskblog import db
 from flaskblog.models import User, Post
-from flaskblog.posts.utils import  dict_factory, compare_faces, print_request, detect_emotion
+from flaskblog.posts.utils import  dict_factory, compare_faces, print_request, detect_emotion, save_emotion_picture
 from flaskblog.posts.forms import PostForm, PictureForm
 from flaskblog.users.utils import save_picture
 from flaskblog.errors.handlers import error_404
+from PIL import Image
+import io
 
 posts = Blueprint('posts', __name__)
 
@@ -135,30 +137,27 @@ def api_filter():
 @posts.route('/face_match', methods=['GET','POST'])
 @login_required
 def face_match():
+    result = None
     form = PictureForm()
     if form.validate_on_submit():
         if form.picture1.data:
-            picture_file1 = save_picture(form.picture1.data)
+            picture_file1 = save_emotion_picture(form.picture1.data)
             result = detect_emotion(picture_file1)
             current_user.pic1 = picture_file1
         db.session.commit()
         flash('Your picture has been posted!', 'success')
         return redirect(url_for('posts.face_match'))
         
-    if request.method == 'POST':
-        #check if the post request has the file part
-        if ('file1' in request.files) and ('file2' in request.files):        
-            file1 = request.files.get('file1')
-            file2 = request.files.get('file2')                         
-            ret = compare_faces(file1, file2)     
-            resp_data = {"match": bool(ret)} # convert numpy._bool to bool for json.dumps
-            return json.dumps(resp_data)
-        
+    # if request.method == "POST":
+    #     if request.files.get("image"):
+    #         #read the image in PIL format
+    #         image = request.files["image"].read()   
+    #         image = Image.open(io.BytesIO(image))
+    #         result = detect_emotion(image)
     
-    #f'../static/profile_pics/{current_user.pic1}'   
     
     pic1= url_for('static', filename='profile_pics/' + current_user.pic1)
-    return render_template('emotion_picture.html',title='Emotion Detection', pic1=pic1, form=form)
+    return render_template('emotion_picture.html',title='Emotion Detection', pic1=pic1, form=form, result=result)
     
 
 #logic is to post the 2 pics, display them like account pic, save into db, when submitted display resp data
